@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Countdown projects</title>
+</head>
+<style  rel="stylesheet" href="fluid.css"></style>
+<script src="fluid.js"></script>
+<body onload="load()">
+	<div class="wrapper">
+	<div>
+		<fieldset>
+			<legend><label for="toggle"><span>Settings</span></label></legend>
+			<input type="checkbox" id="toggle" checked="" hidden=""/>
+			<div id="setFont">
+				<div class ="left-form">
+				<h3>Project</h3>
+
+				<label for="font">Font style</label>
+				<select name="font" id="font" onchange="changeFont(this)" >
+					<option>Comic Sans MS</option>
+					<option>Comic Sans</option>
+					<option>Times New Roman</option>
+					<option>Calibri</option>
+					<option>Arial</option>
+					<option>Verdana</option>
+					<option>Tahoma</option>
+					<option>Garamond</option>
+				  </select>
+				
+				<label for="color">Font color</label>
+				<input name="color" id="color" placeholder="Enter color hex code" type="color"  onchange="changeColor(this)" />
+				<label for="projects-done">Done</label>
+
+				<input name="projects-done" id="projects-done"  type="number" onchange="changeDone(this)" min=0 />
+
+				<label for="projects-done-font">Done font size</label>
+				<input name="projects-done-font" type="number" id="done-font" onchange="changeDoneFont(this)" min=14 />
+		
+				
+				<label for="projects-total">Total</label>
+				<input name="projects-total" id="projects-total"  type="number"onchange="changeTotal(this)" min=0 />
+				<label for="projects-total-font">Total font size</label>
+				<input  name="projects-total-font" type="number" id="total-font" onchange="changeTotalFont(this)" min=14 />
+				</div>
+				<div class = "right-form">
+					<h3>Towns</h3>
+
+				<label for="font-town">Font style</label>
+				<select name="font-town" id="font-town" onchange="changeFont(this)" >
+					<option>Comic Sans MS</option>
+					<option>Comic Sans</option>
+					<option>Times New Roman</option>
+					<option>Calibri</option>
+					<option>Arial</option>
+					<option>Verdana</option>
+					<option>Tahoma</option>
+					<option>Garamond</option>
+				  </select>
+				
+				<label for="color-town">Font color</label>
+				<input name="color-town" id="color-town" placeholder="Enter color hex code" type="color"  onchange="changeColor(this)" />
+				<label for="projects-done-town">Done</label>
+		
+				<input name="projects-done-town" id="projects-done-town"  type="number" onchange="changeDone(this)" min=0 />
+
+				<label for="projects-done-font-town">Done font size</label>
+				<input name="projects-done-font-town" type="number" id="done-font-town" onchange="changeDoneFont(this)" min=14 />
+		
+				<label for="projects-total-town">Total</label>
+				<input name="projects-total-town" id="projects-total-town"  type="number"onchange="changeTotal(this)" min=0 />
+				<label for="projects-total-font-town">Total font size</label>
+				<input  name="projects-total-font-town" type="number" id="total-font-town" onchange="changeTotalFont(this)" min=14 />
+				</div>
+			</div>
+
+		</fieldset>
+	</div>
+
+	<div id="count">
+			<div id="projects">
+				<h3>Projects</h3>
+				<span id="done">  </span> / <span id="total">  </span>
+				<div id="fluid-meter-2"></div>
+ 
+			</div>
+
+			<div id="towns">
+				<h3>Towns</h3>
+				<span id="done-town">  </span> / <span id="total-town">  </span>
+				<div id="fluid-meter-1"></div>
+			</div>
+	</div>
+	</div>
+</body>
+
+<style>
+	body{
+		margin: 0;
+		display: flex;
+		justify-content: center;
+		justify-items: center;
+		background-image: url("bg.jfif");
+		background-size: cover;
+		background-position: center;
+	
+		height: 100vh;
+	}
+	div {
+		border-radius: 5px;
+		background-color: #f2f2f2;
+		padding: 20px;
+	}
+
+	#toggle + #setFont {
+		display: none;
+	}
+
+	#toggle:checked + #setFont {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	input#toggle{
+		display: none;
+	}
+
+	#setFont input, #setFont select{
+		max-width: 140px;
+		width: 100%;
+	}
+
+	legend {
+		width: 85%;
+		border: 1px solid black;
+		padding: 3px 6px;
+		cursor: pointer;
+	
+	}
+
+	label{
+		font-style: italic;
+		font-size: 18px;
+		font-weight: 600;
+		display: block;
+	}
+	input, select{
+		display: block;
+	}
+
+	legend label {
+		width: 100%;
+		display: inline-block;
+		cursor: inherit;
+		font-style: normal;
+	}
+
+	
+
+	
+	legend label span{
+		font-weight: 700;
+	}
+
+	legend label::after {
+		content: "▼";
+		float: right;
+	}
+
+	#count{
+		margin-top: 20px;
+		display: flex;
+		justify-items: center;
+		justify-content: space-around;
+	}
+
+
+	input#projects-total, input#projects-done, input#towns-total, input#towns-done, input#total-font, input#done-font, input#projects-total-town, input#total-font-town, input#done-font-town, input#projects-done-town{
+		max-width: 50px;
+	}
+
+	#projects, #towns{
+		font-size: 32px;
+		text-align: center;
+	}
+
+	#projects #total, #towns #total-town{
+		font-weight: 700;
+	}
+
+	#projects #done, #towns #done-town{
+		font-size: 24px;
+	}
+
+	.wrapper{
+		max-width: 800px;
+		width: 100%;
+		background: lightsteelblue;
+		margin: auto;
+	}
+	
+	#towns{
+		float: right;
+	}
+	
+    .left-form, .right-form{
+		border: 1px solid;
+	}
+
+	.left-form h3, .right-form h3{
+		border-bottom: 1px solid;
+		text-align: right;
+	}
+
+	#setFont, #count{
+			flex-direction: row;
+
+		}
+		.right-form{
+			margin-top: 0px;
+		}
+
+	@media (max-width: 640px) {
+		#setFont, #count{
+			flex-direction: column;
+		}
+		.right-form{
+			margin-top: 10px;
+		}
+	}
+		
+</style>
+
+<script>
+
+	load = function(){
+
+		document.getElementById("projects").style.fontFamily = "'"+localStorage.getItem("font-family")+"'";
+
+		document.getElementById("projects").style.color = localStorage.getItem("color");
+
+		document.getElementById("font").value = localStorage.getItem("font-family");
+
+		document.getElementById("color").value = localStorage.getItem("color");
+
+		document.getElementById("total").innerHTML = localStorage.getItem("projects-total") || 0;
+
+		document.getElementById("done").innerHTML = localStorage.getItem("projects-done") || 0;
+
+		document.getElementById("projects-done").value  = localStorage.getItem("projects-done") || 0;
+
+		document.getElementById("projects-total").value  = localStorage.getItem("projects-total") || 0;
+
+		document.getElementById("total").style.fontSize = localStorage.getItem("projects-total-font")+"px";
+		
+		document.getElementById("done").style.fontSize = localStorage.getItem("projects-done-font")+"px";
+
+		document.getElementById("total-font").value = localStorage.getItem("projects-total-font");
+		
+		document.getElementById("done-font").value = localStorage.getItem("projects-done-font");
+
+		document.getElementById("towns").style.fontFamily = "'"+localStorage.getItem("font-family-towns")+"'";
+
+		document.getElementById("towns").style.color = localStorage.getItem("color-towns");
+
+		document.getElementById("font-town").value = localStorage.getItem("font-family-towns");
+
+		document.getElementById("color-town").value = localStorage.getItem("color-towns");
+
+		document.getElementById("total-town").innerHTML = localStorage.getItem("projects-total-towns") || 0;
+
+		document.getElementById("done-town").innerHTML = localStorage.getItem("projects-done-towns") || 0;
+
+		document.getElementById("projects-done-town").value  = localStorage.getItem("projects-done-towns") || 0;
+
+		document.getElementById("projects-total-town").value  = localStorage.getItem("projects-total-towns") || 0;
+
+		document.getElementById("total-town").style.fontSize = localStorage.getItem("projects-total-font-towns")+"px";
+		
+		document.getElementById("done-town").style.fontSize = localStorage.getItem("projects-done-font-towns")+"px";
+
+		document.getElementById("total-font-town").value = localStorage.getItem("projects-total-font-towns");
+		
+		document.getElementById("done-font-town").value = localStorage.getItem("projects-done-font-towns");
+
+		fm2.setPercentage( (document.getElementById("projects-done").value / document.getElementById("projects-total").value)*100);
+
+		fm1.setPercentage( (document.getElementById("projects-done-town").value / document.getElementById("projects-total-town").value)*100);
+	}
+
+	changeDone = function(e){
+	
+		if(e.id === "projects-done-town" ){
+			document.getElementById("done-town").innerHTML = e.value;
+			localStorage.setItem("projects-done-towns", e.value);
+			fm1.setPercentage( (document.getElementById("projects-done-town").value / document.getElementById("projects-total-town").value)*100);
+
+		}
+		else{
+		
+			document.getElementById("done").innerHTML = e.value;
+
+			localStorage.setItem("projects-done", e.value);
+			fm2.setPercentage( (document.getElementById("projects-done").value / document.getElementById("projects-total").value)*100)
+		}
+		
+	}
+
+	changeTotal = function(e){
+	
+			if(e.id === "projects-total-town"){
+				document.getElementById("total-town").innerHTML = e.value;
+				localStorage.setItem("projects-total-towns", e.value);
+				fm1.setPercentage( (document.getElementById("projects-done-town").value / document.getElementById("projects-total-town").value)*100);
+
+			}
+			else{	
+				document.getElementById("total").innerHTML = e.value;
+				localStorage.setItem("projects-total", e.value);
+				fm2.setPercentage( (document.getElementById("projects-done").value / document.getElementById("projects-total").value)*100)
+			}
+	}
+
+	changeFont = function(e){
+		
+		if(e.id === "font-town" ){
+			document.getElementById("towns").style.fontFamily = "'"+e.value+"'";
+			localStorage.setItem("font-family-towns", e.value);
+		}
+		else{
+			document.getElementById("projects").style.fontFamily = "'"+e.value+"'";
+			localStorage.setItem("font-family", e.value);
+		}
+	}
+
+	changeColor = function(e){
+
+		if(e.id === "color-town" ){
+			document.getElementById("towns").style.color = e.value;
+			localStorage.setItem("color-towns", e.value);
+		}
+		else{
+			document.getElementById("projects").style.color = e.value;
+			localStorage.setItem("color", e.value);
+		}
+	}
+
+	changeDoneFont = function(e){
+		
+		if(e.id === "done-font-town" ){
+			document.getElementById("done-town").style.fontSize = e.value+"px";
+			localStorage.setItem("projects-done-font-towns", e.value);
+		}
+		else{
+			document.getElementById("done").style.fontSize = e.value+"px";
+			localStorage.setItem("projects-done-font", e.value);
+		}
+	}
+
+	changeTotalFont = function(e){
+	
+		if(e.id === "total-font-town"){
+			document.getElementById("total-town").style.fontSize = e.value+"px";
+			localStorage.setItem("projects-total-font-towns", e.value);
+		}
+		else{
+			document.getElementById("total").style.fontSize = e.value+"px";
+			localStorage.setItem("projects-total-font", e.value);
+		}
+	}
+	var fm2 = new FluidMeter();
+	fm2.init({
+      targetContainer: document.getElementById("fluid-meter-2"),
+      fillPercentage: 75,
+      options: {
+        fontFamily: "Oxygen",
+        drawPercentageSign: true,
+        drawBubbles: true,
+		size: 160,
+		fontSize: "44px",
+        borderWidth: 5,
+        backgroundColor: "#262626",
+        foregroundColor: "#4C4A4A",
+        foregroundFluidLayer: {
+          fillStyle: "#55DD10",
+          angularSpeed: 90,
+          maxAmplitude: 11,
+          frequency: 25,
+          horizontalSpeed: -200
+        },
+        backgroundFluidLayer: {
+          fillStyle: "#CDDD10",
+          angularSpeed: 100,
+          maxAmplitude: 13,
+          frequency: 23,
+          horizontalSpeed: 230
+        }
+      }
+	});
+
+	var fm1 = new FluidMeter();
+	fm1.init({
+      targetContainer: document.getElementById("fluid-meter-1"),
+      fillPercentage: 75,
+      options: {
+        fontFamily: "Oxygen",
+        drawPercentageSign: true,
+        drawBubbles: true,
+		size: 160,
+		fontSize: "44px",
+        borderWidth: 5,
+        backgroundColor: "#262626",
+        foregroundColor: "#e2e2e2",
+        foregroundFluidLayer: {
+          fillStyle: "#16E1FF",
+          angularSpeed: 90,
+          maxAmplitude: 11,
+          frequency: 25,
+          horizontalSpeed: -200
+        },
+        backgroundFluidLayer: {
+          fillStyle: "#CDDD10",
+          angularSpeed: 100,
+          maxAmplitude: 13,
+          frequency: 23,
+          horizontalSpeed: 230
+        }
+      }
+	});
+
+</script>
+</html>
